@@ -4,3 +4,22 @@
 a {
   text-decoration: none;
 }
+
+.social-btn {
+  border: 5px inset lightgrey;
+  padding: 5px;
+  color: #EEE;
+  background: url("http://supernovathemes.com/wp-content/themes/supernovathemes/images/bg/b10.png");
+}
+
+.social-btn:visited {
+  color: lightblue;
+}
+
+.social-btn:hover {
+  color: pink;
+}
+
+.social-btn:active {
+  color: hotpink;
+}
