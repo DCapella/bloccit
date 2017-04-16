@@ -15,6 +15,10 @@ posts = Post.all
   )
 end
 
+Post.find_or_create_by!(title: "Now done with assignment 17", body: "Success.")
+assignment = Post.find_or_create_by!(title: "Now done with assignment 17", body: "Success.")
+Comment.find_or_create_by!(post: assignment, body: "This might or might not work.")
+
 puts "Seed finished"
 puts "#{Post.count} posts created"
 puts "#{Comment.count} comments created"
