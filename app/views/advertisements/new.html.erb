@@ -1,0 +1,32 @@
+
+<h1>New Advertisement</h1>
+
+<div class="row">
+  <div class="col-md-4">
+    <p>Guidelines for advertisements</p>
+    <ul>
+      <li>Don't make the title too long.</li>
+      <li>Only use whole numbers, we don't deal with cents.</li>
+      <li>Make sure you describe it.</li>
+    </ul>
+  </div>
+  <div class="col-md-8">
+    <%= form_for @advertisement do |form| %>
+    <div class="form-group">
+      <%= form.label :title %>
+      <%= form.text_field :title, class: 'form-control', placeholder: "Enter advertisement title" %>
+    </div>
+    <div class="form-group">
+      <%= form.label :price %>
+      <%= form.number_field :price, class: 'form-control', placeholder: "Enter price" %>
+    </div>
+    <div class="form-group">
+      <%= form.label :body %>
+      <%= form.text_area :body, rows: 8, class: 'form-control', placeholder: "Enter advertisement description" %>
+    </div>
+    <div class="form-group">
+      <%= form.submit "Save", class: 'btn btn-success' %>
+    </div>
+    <% end %>
+  </div>
+</div>
