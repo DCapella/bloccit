@@ -25,4 +25,8 @@ module RandomData
   def self.random_price
     total = rand(1..99)
   end
+
+  def self.random_resolve
+    resolved = [true, false].sample
+  end
 end
