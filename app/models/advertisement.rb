@@ -1,2 +1,2 @@
-class Advertisement < ApplicationRecord
-end
+# class Advertisement < ApplicationRecord
+# end
