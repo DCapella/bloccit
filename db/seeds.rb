@@ -1,32 +1,30 @@
 require 'random_data'
 
-# 50.times do
-#   Post.create!(
-#   title: RandomData.random_sentence,
-#   body: RandomData.random_paragraph
-#   )
-# end
-# posts = Post.all
-#
-# 100.times do
-#   Comment.create!(
-#   post: posts.sample,
-#   body: RandomData.random_paragraph
-#   )
-# end
-#
-# puts "Seed finished"
-# puts "#{Post.count} posts created"
-# puts "#{Comment.count} comments created"
-
-50.times do
-  Advertisement.create!(
-  title: RandomData.random_sentence,
-  body: RandomData.random_paragraph,
-  price: RandomData.random_price
+15.times do
+  Topic.create!(
+    name:        RandomData.random_sentence,
+    description: RandomData.random_paragraph
   )
 end
-advertisements = Advertisement.all
+topics = Topic.all
+
+50.times do
+  Post.create!(
+  topic: topics.sample,
+  title: RandomData.random_sentence,
+  body:  RandomData.random_paragraph
+  )
+end
+posts = Post.all
+
+100.times do
+  Comment.create!(
+  post: posts.sample,
+  body: RandomData.random_paragraph
+  )
+end
 
 puts "Seed finished"
-puts "#{Advertisement.count} advertisements created"
+puts "#{Topic.count} topics created"
+puts "#{Post.count} posts created"
+puts "#{Comment.count} comments created"

@@ -1,27 +1,36 @@
 class PostsController < ApplicationController
-  def index
-    @posts = Post.all
+  def info(create)
+    @post.title = params[:post][:title]
+    @post.body = params[:post][:body]
+    if create
+      @topic = Topic.find(params[:topic_id])
+      @post.topic = @topic
+    end
+    if @post.save
+      if create
+        flash[:notice] = "Post was saved."
+        redirect_to [@topic, @post]
+      else
+        flash[:notice] = "Post was updated."
+        redirect_to [@post.topic, @post]
+      end
+    else
+      flash.now[:alert] = "There was an error saving the post. Please try again."
+      render :new
+    end
   end
-
   def show
     @post = Post.find(params[:id])
   end
 
   def new
+    @topic = Topic.find(params[:topic_id])
     @post = Post.new
   end
 
   def create
     @post = Post.new
-    @post.title = params[:post][:title]
-    @post.body = params[:post][:body]
-    if @post.save
-      flash[:notice] = "Post was saved."
-      redirect_to @post
-    else
-      flash.now[:alert] = "There was an error saving the post. Please try again."
-      render :new
-    end
+    info(true)
   end
 
   def edit
@@ -30,22 +39,14 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    @post.title = params[:post][:title]
-    @post.body = params[:post][:body]
-    if @post.save
-      flash[:notice] = "Post was updated."
-      redirect_to @post
-    else
-      flash.now[:alert] = "There was an error saving the post. Please try again."
-      render :edit
-    end
+    info(false)
   end
 
   def destroy
     @post = Post.find(params[:id])
     if @post.destroy
       flash[:notice] = "\"#{@post.title}\" was delete successfully."
-      redirect_to posts_path
+      redirect_to @post.topic
     else
       flash.now[:alert] = "there was an error deleting the post."
       render :show
