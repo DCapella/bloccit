@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     resources :posts, except: [:index]
   end
   resources :advertisements
+  resources :users, only: [:new, :create]
 
 
   get 'about' => 'welcome#about'
