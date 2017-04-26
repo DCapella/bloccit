@@ -83,7 +83,4 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  #Supposedly makes random_data.rb accessible to all of our specs going forward.
-  config.autoload_paths << File.join(config.root, "lib")
 end
