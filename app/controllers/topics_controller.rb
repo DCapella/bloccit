@@ -29,8 +29,14 @@ class TopicsController < ApplicationController
   end
 
   def create
-    @topic = Topic.new
-    info(true)
+    @topic = Topic.new(topic_params)
+
+    if @topic.save
+      redirect_to @topic, notice: "Topic was saved successfully."
+    else
+      flash.now[:alert] = "Error creating topic. Please try again."
+      render :new
+    end
   end
 
   def edit
@@ -39,7 +45,16 @@ class TopicsController < ApplicationController
 
   def update
     @topic = Topic.find(params[:id])
-    info(false)
+
+    @topic.assign_attributes(topic_params)
+
+    if @topic.save
+      flash[:notice] = "Topic was updated."
+      redirect_to @topic
+    else
+      flash.now[:alert] = "Error creating topic. Please try again."
+      render :new
+    end
   end
 
   def destroy
@@ -54,4 +69,8 @@ class TopicsController < ApplicationController
     end
   end
 
+  private
+  def topic_params
+    params.require(:topic).permit(:name, :description, :public)
+  end
 end

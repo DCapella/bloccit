@@ -1,24 +1,26 @@
 class PostsController < ApplicationController
-  def info(create)
-    @post.title = params[:post][:title]
-    @post.body = params[:post][:body]
-    if create
-      @topic = Topic.find(params[:topic_id])
-      @post.topic = @topic
-    end
-    if @post.save
-      if create
-        flash[:notice] = "Post was saved."
-        redirect_to [@topic, @post]
-      else
-        flash[:notice] = "Post was updated."
-        redirect_to [@post.topic, @post]
-      end
-    else
-      flash.now[:alert] = "There was an error saving the post. Please try again."
-      render :new
-    end
-  end
+  before_action :require_sign_in, except: :show
+
+  # def info(create)
+  #   @post.title = params[:post][:title]
+  #   @post.body = params[:post][:body]
+  #   if create
+  #     @topic = Topic.find(params[:topic_id])
+  #     @post.topic = @topic
+  #   end
+  #   if @post.save
+  #     if create
+  #       flash[:notice] = "Post was saved."
+  #       redirect_to [@topic, @post]
+  #     else
+  #       flash[:notice] = "Post was updated."
+  #       redirect_to [@post.topic, @post]
+  #     end
+  #   else
+  #     flash.now[:alert] = "There was an error saving the post. Please try again."
+  #     render :new
+  #   end
+  # end
   def show
     @post = Post.find(params[:id])
   end
@@ -29,8 +31,16 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new
-    info(true)
+    @topic = Topic.find(params[:topic_id])
+    @post = @topic.posts.build(post_params)
+    @post.user = current_user
+    if @post.save
+        flash[:notice] = "Post was saved."
+        redirect_to [@topic, @post]
+    else
+      flash.now[:alert] = "There was an error saving the post. Please try again."
+      render :new
+    end
   end
 
   def edit
@@ -39,7 +49,14 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    info(false)
+    @post.assign_attributes(post_params)
+    if @post.save
+      flash[:notice] = "Post was updated."
+      redirect_to [@post.topic, @post]
+    else
+      flash.now[:alert] = "There was an error saving the post. Please try again."
+      render :new
+    end
   end
 
   def destroy
@@ -51,5 +68,10 @@ class PostsController < ApplicationController
       flash.now[:alert] = "there was an error deleting the post."
       render :show
     end
+  end
+
+  private
+  def post_params
+    params.require(:post).permit(:title, :body)
   end
 end
