@@ -3,26 +3,6 @@ class PostsController < ApplicationController
   before_action :authorize_user, except: [:show, :new, :create]
 
 
-  # def info(create)
-  #   @post.title = params[:post][:title]
-  #   @post.body = params[:post][:body]
-  #   if create
-  #     @topic = Topic.find(params[:topic_id])
-  #     @post.topic = @topic
-  #   end
-  #   if @post.save
-  #     if create
-  #       flash[:notice] = "Post was saved."
-  #       redirect_to [@topic, @post]
-  #     else
-  #       flash[:notice] = "Post was updated."
-  #       redirect_to [@post.topic, @post]
-  #     end
-  #   else
-  #     flash.now[:alert] = "There was an error saving the post. Please try again."
-  #     render :new
-  #   end
-  # end
   def show
     @post = Post.find(params[:id])
   end
@@ -79,7 +59,7 @@ class PostsController < ApplicationController
 
   def authorize_user
     post = Post.find(params[:id])
-    unless current_user == post.user || current_user.admin?
+    unless current_user == post.user || current_user.admin? || current_user.moderator?
       flash[:alert] = "You must be an admin to do that."
       redirect_to [post.topic, post]
     end

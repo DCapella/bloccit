@@ -1,21 +1,4 @@
 class TopicsController < ApplicationController
-  # def info(create)
-  #   @topic.name = params[:topic][:name]
-  #   @topic.description = params[:topic][:description]
-  #   @topic.public = params[:topic][:public]
-  #
-  #   if @topic.save
-  #     if create
-  #       redirect_to @topic, notice: "Topic was saved successfully."
-  #     else
-  #       flash[:notice] = "Topic was updated."
-  #       redirect_to @topic
-  #     end
-  #   else
-  #     flash.now[:alert] = "Error creating topic. Please try again."
-  #     render :new
-  #   end
-  # end
   def index
     @topics = Topic.all
   end
@@ -71,6 +54,7 @@ class TopicsController < ApplicationController
 
   before_action :require_sign_in, except: [:index, :show]
   before_action :authorize_user, except: [:index, :show]
+  before_action :authorize_user_moderator, except: [:index, :show, :edit]
 
   private
   def topic_params
@@ -78,6 +62,13 @@ class TopicsController < ApplicationController
   end
 
   def authorize_user
+    unless current_user.admin? or current_user.moderator?
+      flash[:alert] = "You must be an admin to do that."
+      redirect_to topics_path
+    end
+  end
+
+  def authorize_user_moderator
     unless current_user.admin?
       flash[:alert] = "You must be an admin to do that."
       redirect_to topics_path
