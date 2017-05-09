@@ -1,21 +1,4 @@
 class TopicsController < ApplicationController
-  # def info(create)
-  #   @topic.name = params[:topic][:name]
-  #   @topic.description = params[:topic][:description]
-  #   @topic.public = params[:topic][:public]
-  #
-  #   if @topic.save
-  #     if create
-  #       redirect_to @topic, notice: "Topic was saved successfully."
-  #     else
-  #       flash[:notice] = "Topic was updated."
-  #       redirect_to @topic
-  #     end
-  #   else
-  #     flash.now[:alert] = "Error creating topic. Please try again."
-  #     render :new
-  #   end
-  # end
   def index
     @topics = Topic.all
   end
