@@ -7,6 +7,7 @@ class Post < ApplicationRecord
   # dependent: ensure votes are destroyed when their parent
   # .. post is deleted
   has_many :votes, dependent: :destroy
+  has_many :favorites, dependent: :destroy
 
   default_scope { order('rank DESC') }
 

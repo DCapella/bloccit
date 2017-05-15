@@ -8,7 +8,8 @@ end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.2'
-
+# Figaro provides an elegant solution for handling sensitive data. Read more: https://github.com/laserlemon/figaro#give-me-an-example
+gem 'figaro', '1.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
