@@ -1,12 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Vote, type: :model do
-  # Creating a topic with keys: name and description
-  let(:topic) { Topic.create!(name: RandomData.random_sentence, description: RandomData.random_paragraph) }
-  # Creating a user with keys: name, email, and password
-  let(:user) { User.create!(name: "Bloccit User", email: "user@bloccit.com", password: "helloworld") }
-  # From topic creating a post with values title, body, and user from user
-  let(:post) { topic.posts.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: user) }
+  let(:topic) { create(:topic) }
+  let(:user) { create(:user) }
+  let(:post) { create(:post) }
   # Creating a vote with keys: value, post from post, and user from user
   let(:vote) { Vote.create!(value: 1, post: post, user: user) }
 
