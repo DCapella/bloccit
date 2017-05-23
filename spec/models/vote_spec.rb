@@ -5,7 +5,7 @@ RSpec.describe Vote, type: :model do
   let(:user) { create(:user) }
   let(:post) { create(:post) }
   # Creating a vote with keys: value, post from post, and user from user
-  let(:vote) { Vote.create!(value: 1, post: post, user: user) }
+  let(:vote) { create(:vote) }
 
   # testing that votes belong to posts and users
   it { is_expected.to belong_to(:post) }

@@ -1,0 +1,22 @@
+<% @user.favorites.each do |fav| %>
+  <% post = Post.where(:id => fav.post_id).first %>
+  <div class="media">
+    <%= render partial: 'votes/voter', locals: { post: post } %>
+    <div class="media-body">
+      <h4 class="media-heading">
+        <%= link_to post.title, topic_post_path(post.topic, post) %>
+      </h4>
+      <small>
+        submitted <%= time_ago_in_words(post.created_at) %> ago by <%= post.user.name %>
+        <% avatar_url = post.user.avatar_url(20) %>
+        <% if avatar_url %>
+          <div class="media-left">
+            <%= image_tag avatar_url, class: 'media-object' %>
+          </div>
+        <% end %>
+         <br>
+        <%= post.comments.count %> Comments
+      </small>
+    </div>
+  </div>
+<% end %>
